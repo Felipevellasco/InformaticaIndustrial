@@ -1,5 +1,6 @@
 program_name := "main"
 build_dir := ".build"
+compile_command := "bear -- ccache clang++ -std=c++20 -Wall -Iinclude -Ilib"
 
 _:
   @just --list
@@ -16,17 +17,19 @@ build target="main":
 
 _build-main:
   @mkdir -p {{build_dir}}
-  bear -- ccache clang++ -std=c++20 -Wall -O2 -Iinclude -Ilib src/*.cpp -o ./{{build_dir}}/{{program_name}}
+  {{compile_command}} -O2 src/*.cpp -o ./{{build_dir}}/{{program_name}}
 
 _build-debug:
   @mkdir -p {{build_dir}}
-  bear -- ccache clang++ -std=c++20 -Wall -O0 -Ddebug -Iinclude -Ilib src/*.cpp -o ./{{build_dir}}/{{program_name}}
+  {{compile_command}} -O0 -Ddebug src/*.cpp -o ./{{build_dir}}/{{program_name}}
 
 # Build and run the project for debugging
 run *ARGS: _build-debug
   @echo ""
   @echo "--- PROGRAM START ---"
+  @echo ""
   @./{{build_dir}}/{{program_name}} {{ARGS}}
+  @echo ""
   @echo "--- PROGRAM END ---"
 
 # Build and release the project (copy to bin directory)
