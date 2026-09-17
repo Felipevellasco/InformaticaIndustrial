@@ -4,18 +4,15 @@ namespace u {
 template <typename T> class vector {
 private:
   T *_data;
-  uint16_t _allocated;
-  uint16_t _used;
+  uint32_t _allocated;
+  uint32_t _used;
 
   // Método privado para que seja declarado antes do construtor; também permite
   // lógica personalizada com o wrapper público
-  void _resize(uint16_t newSize = 0) {
-    if (!newSize)
-      newSize = ((_allocated + 1) * 3) / 2;
-
+  void _resize(uint32_t newSize) {
     T *newData = new T[newSize];
 
-    for (uint16_t i = 0; i < _allocated && i < newSize; i++) {
+    for (uint32_t i = 0; i < _used && i < newSize; i++) {
       newData[i] = _data[i];
     }
 
@@ -29,28 +26,33 @@ private:
   }
 
 public:
-  vector(uint16_t startSize = 4) : _data(nullptr), _allocated(0), _used(0) {
+  vector(uint32_t startSize = 4) : _data(nullptr), _allocated(0), _used(0) {
     if (startSize > 0)
       _resize(startSize);
   }
 
-  vector(vector &) = delete;
+  // Deleta construtores de cópia para impedir vazamento de memória
+  vector(const vector &) = delete;
+  vector &operator=(const vector &) = delete;
   vector(vector &&) = delete;
+  vector &operator=(vector &&) = delete;
 
   ~vector() { delete[] _data; }
 
-  void resize(uint16_t newSize) { _resize(newSize); }
+  void resize(uint32_t newSize) { _resize(newSize); }
 
-  // Aumenta em 50% se index for menor que o dobro; aumenta em 2*Delta se o
-  // index for maior que o dobro O usuário provavelmente vai utilizar mais
-  // memória caso ele tenha pedido por mais que o número atual alocado, então é
-  // melhor alocar um bloco maior logo de uma vez para impedir múltiplas
-  // alocações dinâmicas desnecessárias
-  T &operator[](const uint16_t index) {
+  // Aumenta em 2x o número de espaços necessários para adicionar o valor no
+  // índice pedido pelo usuário; caso o vetor precise crescer, é muito provável
+  // que o usuário peça por mais memória posteriormente. Dessa forma,
+  // incrementar o vetor em mais espaços que o pedido previne alocações
+  // dinâmicas recorrentes, que podem atrasar consideravelmente o código
+  // considerando o tamanho do vetor original (que precisa ser copiado).
+  T &operator[](const uint32_t index) {
     if (index >= _allocated) {
-      _resize((index < (_allocated * 2)
-                   ? (_allocated * 3) / 2
-                   : _allocated + 2 * (index - _allocated)));
+      uint32_t needed = index + 1;
+      uint32_t delta = needed - _allocated;
+      uint32_t new_size = _allocated + (2 * delta);
+      _resize(new_size);
     }
 
     if (index + 1 > _used)
@@ -60,7 +62,7 @@ public:
   }
 
   // at() requer excessões para impedir acesso fora do limite do vetor ao mesmo
-  // tempo que retorna uma referência T &at(const uint16_t index) {
+  // tempo que retorna uma referência T &at(const uint32_t index) {
   //   if (index >= _allocated) {
   //     return nullptr;
   //   }
@@ -71,7 +73,7 @@ public:
   //   return _data[index];
   // }
 
-  uint16_t size() const { return _used; }
-  uint16_t capacity() const { return _allocated; }
+  uint32_t size() const { return _used; }
+  uint32_t capacity() const { return _allocated; }
 };
-}; // namespace u
+} // namespace u
