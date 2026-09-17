@@ -17,7 +17,7 @@ enum class AccountType {
 class Banco {
 private:
   u::vector<Conta *> contas;
-  uint32_t idCounter;
+  int idCounter;
 
 public:
   Banco();

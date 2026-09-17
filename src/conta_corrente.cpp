@@ -23,8 +23,14 @@ void ContaCorrente::saque(int senha, double valor) {
     return;
   }
 
-  if (this->saldo < valor - 500) {
+  if (valor < 0) {
+    std::cout << "O valor do saque deve ser positivo!" << std::endl;
+    return;
+  }
+
+  if (this->saldo - valor < -500) {
     std::cout << "Saldo insuficiente!" << std::endl;
+    return;
   }
 
   this->saldo -= valor;

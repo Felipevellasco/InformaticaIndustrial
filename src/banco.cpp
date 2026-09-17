@@ -7,7 +7,7 @@
 
 using namespace std;
 
-Banco::Banco() // O construtor criara 4 contas
+Banco::Banco() : idCounter(0) // O construtor criara 4 contas
 {
   criaConta("Joao", 1234, AccountType::corrente, 300);
   criaConta("Jose", 4567, AccountType::poupança, 800);
@@ -31,10 +31,10 @@ bool Banco::criaConta(std::string titular, int senha, AccountType tipo,
   switch (tipo) {
     using enum AccountType;
   case corrente:
-    newAccount = new ContaCorrente(senha, idCounter, titular, 0.0f);
+    newAccount = new ContaCorrente(senha, idCounter++, titular, saldo);
     break;
   case poupança:
-    newAccount = new ContaPoupança(senha, idCounter, titular, 0.0f);
+    newAccount = new ContaPoupança(senha, idCounter++, titular, saldo);
     break;
 
   case count:
@@ -51,9 +51,9 @@ bool Banco::criaConta(std::string titular, int senha, AccountType tipo,
 Conta *Banco::buscaConta(int numero) // Retorna o endereço da conta que possuir
                                      // o mesmo numero informado
 {
-  for (int i = 0; i < NUMCONTAS; i++) {
-    if (numero == this->contas[i]->numero) {
-      return this->contas[i];
+  for (int i = 0; i < contas.size(); i++) {
+    if (contas[i]->numero == numero) {
+      return contas[i];
     }
   }
 

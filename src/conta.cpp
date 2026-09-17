@@ -55,17 +55,23 @@ void Conta::deposito(double valor) {
 }
 
 void Conta::saque(int senha, double valor) {
-  if (senha == this->senha) {
-    if (this->saldo > valor) {
-      this->saldo -= valor;
-      std::cout << "Saque de R$" << valor << " realizado com sucesso."
-                << std::endl;
-    } else {
-      std::cout << "Saldo insuficiente" << std::endl;
-    }
-  } else {
+  if (!validaSenha(senha)) {
     std::cout << "Senha invalida" << std::endl;
+    return;
   }
+
+  if (valor < 0) {
+    std::cout << "O valor do saque deve ser positivo!" << std::endl;
+    return;
+  }
+
+  if (this->saldo - valor < 0) {
+    std::cout << "Saldo insuficiente" << std::endl;
+    return;
+  }
+
+  this->saldo -= valor;
+  std::cout << "Saque de R$" << valor << " realizado com sucesso." << std::endl;
 }
 
 bool Conta::validaSenha(int senha) { return (this->senha == senha); }
