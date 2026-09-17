@@ -2,6 +2,28 @@
 
 Este repositório armazena as versões e implementações dos exercícios de informática industrial da UFJF feitos por mim.  
 
+## Instruções para compilação
+
+O repositório utiliza um framework de execução de comandos chamado [Just](https://github.com/casey/just).  
+
+Para compilar, basta digitar no terminal:
+```bash
+just build # para compilar em modo 'release'
+
+# OU
+
+just run # para compilar em modo debug e executar o arquivo imediatamente
+```
+
+A saída padrão do programa compilado é na pasta `.build/`, com artefato de nome `main`.
+
+Caso queira saber quais outros comandos foram configurados, você pode verificar o [justfile](justfile) ou simplesmente
+abrir um terminal e digitar:
+```bash
+just
+```
+que, por padrão, exibirá uma lista de comandos disponíveis.
+
 ## Respostas: exercício 2
 ### Parte 1: escolha do método de crescimento do vetor
 
