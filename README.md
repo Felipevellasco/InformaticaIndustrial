@@ -16,7 +16,7 @@ Este repositório armazena as versões e implementações dos exercícios de inf
 
 Comentário presente em [vector.hpp](include/vector.hpp#L44).
 
-### Parte 1: motivo pelo uso de ponteiros no vetor
+### Parte 1: por que usar ponteiros no vetor?
 
 ```cpp
   // O uso de ponteiros permite que os objetos tenham polimorfismo através de
@@ -25,9 +25,9 @@ Comentário presente em [vector.hpp](include/vector.hpp#L44).
   // conta poupança.
 ```
 
-Comentário presente em [banco.cpp](src/banco.cpp#L137)
+Comentário presente em [banco.cpp](src/banco.cpp#L137).
 
-### Parte 3:
+### Parte 3: por que o destrutor virtual?
 
 ```cpp
   // O destrutor virtual faz com que os destrutores de todas as subclasses sejam
@@ -40,4 +40,4 @@ Comentário presente em [banco.cpp](src/banco.cpp#L137)
   // _data será perdido sem que o operador delete[] seja chamado.
 ```
 
-Comentário presente em [conta.h](include/conta.h#L20)
+Comentário presente em [conta.h](include/conta.h#L20).
