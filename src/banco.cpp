@@ -139,3 +139,9 @@ int Banco::removeConta(int numero) {
   // objetos. Exemplo: uma conta polimórfica pode ser do tipo conta corrente ou
   // conta poupança.
 }
+
+void Banco::closeMonth() {
+  for (int i = 0; i < contas.size(); i++) {
+    contas[i]->aplicaOperacaoMensal();
+  }
+}

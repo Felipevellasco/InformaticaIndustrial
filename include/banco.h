@@ -27,6 +27,8 @@ public:
   void atendimento();
   bool criaConta(std::string titular, int senha, AccountType tipo, double saldo);
   int removeConta(int numero);
+
+  void closeMonth();
 };
 
 #endif

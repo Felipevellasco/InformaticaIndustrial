@@ -76,6 +76,13 @@ ContaCorrente::ContaCorrente(int senha, int numero, std::string titular,
 
 const char *ContaCorrente::type() const { return _type; }
 
+void ContaCorrente::aplicaOperacaoMensal() {
+  saldo -= 15.0f; // Cobra taxa de manutenção
+  if (saldo < 0) {
+    std::cout << "Saldo negativo!!!" << std::endl;
+  }
+}
+
 // Saque com limite de cheque especial (R$500,00)
 // Infelizmente, a interface exigiu que:
 // (a) saque() seja completamente implementado pela classe derivada; ou
@@ -98,8 +105,12 @@ ContaPoupança::ContaPoupança(int senha, int numero, std::string titular,
                              double saldo)
     : Conta(senha, numero, titular, saldo) {}
 
+void ContaPoupança::_render(double taxa) {
+  saldo *= taxa; // rendimento simples
+}
+
 const char *ContaPoupança::type() const { return _type; }
 
-void ContaPoupança::render(double taxa) {
-  saldo *= taxa; // rendimento simples
+void ContaPoupança::aplicaOperacaoMensal() {
+  _render(0.05f / 100); // Rendimento de 0.05% ao mês
 }
