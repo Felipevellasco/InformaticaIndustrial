@@ -73,6 +73,19 @@ public:
   //   return _data[index];
   // }
 
+  T pop(uint32_t index) {
+    T element = _data[index];
+
+    for (int i = index; i < size(); i++) {
+      index++;
+      _data[i] = _data[index];
+    }
+
+    _used--;
+
+    return element;
+  }
+
   uint32_t size() const { return _used; }
   uint32_t capacity() const { return _allocated; }
 };

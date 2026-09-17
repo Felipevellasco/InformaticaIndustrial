@@ -22,7 +22,6 @@ public:
     void deposito(double valor);
     void saque(int senha, double valor);
     bool validaSenha(int senha);
-
 };
 
 

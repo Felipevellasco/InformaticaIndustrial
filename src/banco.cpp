@@ -90,3 +90,27 @@ void Banco::atendimento() // Realiza o atendimento ao cliente(Função chamada n
     }
   }
 }
+
+int Banco::removeConta(int numero) {
+  int index = 0;
+  for (; index < contas.size(); index++)
+    if (contas[index]->numero == numero) {
+      break;
+    }
+
+  if (index == contas.size())
+    return 1;
+
+  Conta *conta = contas.pop(index);
+
+  delete conta;
+
+  return 0; // Não entendi: por que retornar int??
+
+  // Por que guardamos ponteiros?
+  //
+  // Resposta:
+  // O uso de ponteiros permite que os objetos tenham polimorfismo através de herança. Isso traz a possibilidade de
+  // implementar tipos especializados de objetos. Exemplo: uma conta polimórfica pode ser do tipo conta corrente ou
+  // conta poupança.
+}
