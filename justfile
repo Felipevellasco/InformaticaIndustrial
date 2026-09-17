@@ -39,3 +39,11 @@ run *ARGS: _build-debug
 # Remove build artifacts
 clean:
   rm -rf ./{{build_dir}}
+
+# Package the workspace to a .tar.gz file
+package output="./.build/archive.tar.gz":
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    { git ls-files --cached --others --exclude-standard; echo ".git"; } | \
+        tar -czf "{{output}}" --verbatim-files-from -T -
