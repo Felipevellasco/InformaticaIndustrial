@@ -1,16 +1,11 @@
 #include <iostream>
+#include "banco.h"
+using namespace std;
 
-#include "mylib.hpp"
+int main()
+{
+    Banco b1;
+    b1.atendimento();
 
-int main() {
-
-  char name[30];
-
-  std::cout << "Digite o seu nome:\n";
-  std::cin.getline(name, sizeof(name));
-
-  invertenome(name);
-  std::cout << name << std::endl;
-
-  return 0;
+    return 0;
 }
