@@ -8,12 +8,11 @@ Conta::Conta() {
   this->saldo = 0;
 }
 
-Conta::Conta(int senha, int numero, std::string titular, std::string tipo,
-             double saldo) {
+Conta::Conta(int senha, int numero, std::string titular, double saldo) {
   this->senha = senha;
   this->numero = numero;
   this->titular = titular;
-  this->tipo = tipo;
+
   if (saldo > 0) {
     this->saldo = saldo;
   } else {
@@ -26,7 +25,7 @@ Conta::~Conta() {}
 void Conta::exibeDados() {
   std::cout << "Titular: " << this->titular << std::endl;
   std::cout << "Numero: " << this->numero << std::endl;
-  std::cout << "Tipo: " << this->tipo << std::endl;
+  std::cout << "Tipo: " << this->type() << std::endl;
 }
 
 double Conta::getSaldo(int senha) {

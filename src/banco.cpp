@@ -1,15 +1,15 @@
 #include "banco.h"
+#include "conta.h"
 #include <iostream>
 
 using namespace std;
 
-Banco::Banco()
-    : contas(NUMCONTAS) // O construtor criara 4 contas
+Banco::Banco() // O construtor criara 4 contas
 {
-  this->contas[0] = new Conta(1234, 1, "Joao", "Corrente", 300);
-  this->contas[1] = new Conta{4567, 2, "Jose", "Poupanca", 800};
-  this->contas[2] = new Conta{7890, 3, "Maria", "Corrente", 1000};
-  this->contas[3] = new Conta{8956, 4, "Madalena", "Poupanca", 2000};
+  criaConta("Joao", 1234, AccountType::corrente, 300);
+  criaConta("Jose", 4567, AccountType::poupança, 800);
+  criaConta("Maria", 7890, AccountType::corrente, 1000);
+  criaConta("Madalena", 8956, AccountType::poupança, 2000);
 }
 
 Banco::~Banco() {
@@ -19,6 +19,30 @@ Banco::~Banco() {
     delete conta;
     conta = nullptr;
   }
+}
+
+bool Banco::criaConta(std::string titular, int senha, AccountType tipo,
+                      double saldo) {
+  Conta *newAccount = nullptr;
+
+  switch (tipo) {
+    using enum AccountType;
+  case corrente:
+    newAccount = new ContaCorrente(senha, idCounter, titular, 0.0f);
+    break;
+  case poupança:
+    newAccount = new ContaPoupança(senha, idCounter, titular, 0.0f);
+    break;
+
+  case count:
+    [[fallthrough]];
+  default:
+    std::cout << "Tipo inválido!" << std::endl;
+    return false;
+  }
+
+  this->contas.push_back(newAccount);
+  return true;
 }
 
 Conta *Banco::buscaConta(int numero) // Retorna o endereço da conta que possuir

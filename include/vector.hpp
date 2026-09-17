@@ -73,6 +73,10 @@ public:
   //   return _data[index];
   // }
 
+  void push_back(T object) {
+    operator[](_used) = object;
+  }
+
   T pop(uint32_t index) {
     T element = _data[index];
 
